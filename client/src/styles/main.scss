@@ -1,0 +1,104 @@
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+@use 'base/reset';
+@use 'base/typography';
+
+:root {
+  --color-primary: #0F766E;
+  --color-primary-hover: #0D645E;
+  --color-primary-light: #F0FDF9;
+  --color-accent-mint: #DDF7EE;
+  --color-bg: #F7F9FC;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #172B3A;
+  --color-text-secondary: #718096;
+  --color-border: #E4EAF0;
+}
+
+// Global Layout Helpers
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: $color-bg;
+}
+
+.content-container {
+  padding: 1.75rem 2rem;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+
+  @include mobile {
+    padding: 1rem;
+  }
+}
+
+// Utility Classes
+.card {
+  @include card-base;
+  padding: 1.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: $radius-full;
+  text-transform: capitalize;
+
+  &--waiting {
+    background-color: $color-warning-bg;
+    color: $color-warning-text;
+    border: 1px solid $color-warning-border;
+  }
+
+  &--called {
+    background-color: $color-accent-mint;
+    color: $color-primary;
+    border: 1px solid rgba(15, 118, 110, 0.3);
+    animation: pulseGlow 2s infinite ease-in-out;
+  }
+
+  &--in_consultation {
+    background-color: $color-info-bg;
+    color: $color-info-text;
+    border: 1px solid $color-info-border;
+  }
+
+  &--completed {
+    background-color: $color-success-bg;
+    color: $color-success-text;
+    border: 1px solid $color-success-border;
+  }
+
+  &--skipped {
+    background-color: $color-danger-bg;
+    color: $color-danger-text;
+    border: 1px solid $color-danger-border;
+  }
+
+  &--cancelled {
+    background-color: $color-surface-subtle;
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(15, 118, 110, 0);
+  }
+}

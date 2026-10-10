@@ -1,0 +1,53 @@
+@use 'variables' as *;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card-base {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+}
+
+@mixin card-hover {
+  &:hover {
+    border-color: $color-border-hover;
+    box-shadow: $shadow-md;
+  }
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Media Breakpoints
+@mixin mobile {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
