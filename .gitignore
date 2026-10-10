@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.local
+dist/
+build/
+coverage/
+*.log
+uploads/
+ml/wait-time/*.pkl
+ml/wait-time/*.joblib
+.DS_Store
+Thumbs.db
