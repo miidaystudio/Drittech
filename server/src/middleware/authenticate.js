@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const authenticate = async (req, res, next) => {
   try {
-    let token = req.cookies?.careflow_access_token;
+    let token = req.cookies?.drittech_access_token;
 
     if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
       token = req.headers.authorization.split(' ')[1];

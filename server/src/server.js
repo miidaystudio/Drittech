@@ -15,7 +15,7 @@ const start = async () => {
 
   server.listen(env.PORT, () => {
     console.log(`====================================================`);
-    console.log(`🏥 CareFlow by Drittech Server is running on port ${env.PORT}`);
+    console.log(`🏥 Drittech Patient Flow Engine is running on port ${env.PORT}`);
     console.log(`📡 WebSocket server initialized`);
     console.log(`🌐 Client Origin: ${env.CLIENT_ORIGIN}`);
     console.log(`====================================================`);

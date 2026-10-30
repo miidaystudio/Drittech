@@ -1,0 +1,146 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Salesforce-style icon-only sidebar rail
+// Exact match: ~52px wide, black bg, rounded icon buttons, white circle active
+// ─────────────────────────────────────────────────────────────────────────────
+
+.cf-sidebar {
+  width: 52px;
+  background-color: #09090B;
+  border-right: 1px solid #18181B;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  flex-shrink: 0;
+  padding: 0.75rem 0;
+  gap: 0;
+
+  // ── Logo ────────────────────────────────────────────────────────────────────
+  &__logo-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0 1.25rem;
+    border-bottom: 1px solid #18181B;
+    margin-bottom: 0.5rem;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  // ── Nav list ────────────────────────────────────────────────────────────────
+  &__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    overflow-y: auto;
+    width: 100%;
+    padding: 0.25rem 0;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  // ── Single icon link ─────────────────────────────────────────────────────────
+  &__link {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #52525B;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: #27272A;
+      color: #A1A1AA;
+    }
+
+    // Active: solid white circle, dark icon — matches Salesforce reference exactly
+    &--active {
+      background-color: #FFFFFF !important;
+      color: #09090B !important;
+
+      &:hover {
+        background-color: #F4F4F5 !important;
+        color: #09090B !important;
+      }
+    }
+  }
+
+  // ── Footer ──────────────────────────────────────────────────────────────────
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0 0.25rem;
+    border-top: 1px solid #18181B;
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  &__user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    flex-shrink: 0;
+  }
+
+  &__logout {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #52525B;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: #27272A;
+      color: #EF4444;
+    }
+  }
+}

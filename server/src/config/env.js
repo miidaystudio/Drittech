@@ -28,7 +28,7 @@ module.exports = {
   SMTP_PORT: parseInt(process.env.SMTP_PORT || '2525', 10),
   SMTP_USER: process.env.SMTP_USER || '',
   SMTP_PASS: process.env.SMTP_PASS || '',
-  SMTP_FROM: process.env.SMTP_FROM || 'CareFlow Health <notifications@careflow.drittech.com>',
+  SMTP_FROM: process.env.SMTP_FROM || 'Drittech Health <notifications@drittech.com>',
 
   NOTIFICATION_SMS_ENABLED: process.env.NOTIFICATION_SMS_ENABLED === 'true',
   TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID || '',

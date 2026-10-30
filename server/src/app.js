@@ -56,7 +56,7 @@ app.use('/api/', generalLimiter);
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
-    system: 'CareFlow Patient Flow Engine',
+    system: 'Drittech Patient Flow Engine',
     timestamp: new Date().toISOString(),
     environment: env.NODE_ENV,
   });

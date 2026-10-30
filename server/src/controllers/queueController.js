@@ -254,7 +254,7 @@ const getDisplayData = async (req, res, next) => {
     res.json({
       success: true,
       data: {
-        clinic: clinic || { name: 'CareFlow Health' },
+        clinic: clinic || { name: 'Drittech Health' },
         department: department || { name: 'All Departments' },
         currentCalled: currentCalled
           ? {

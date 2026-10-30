@@ -15,7 +15,7 @@ const initSocket = (server) => {
   io.use((socket, next) => {
     // Check if token is passed via auth or cookie
     const token = socket.handshake.auth?.token || socket.handshake.headers?.cookie?.split(';')
-      .find(c => c.trim().startsWith('careflow_access_token='))
+      .find(c => c.trim().startsWith('drittech_access_token='))
       ?.split('=')[1];
 
     if (token) {

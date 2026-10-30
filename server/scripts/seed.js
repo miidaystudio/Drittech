@@ -35,8 +35,8 @@ const seedData = async () => {
 
     console.log('[Seed] Creating Main Clinic...');
     const clinic = await Clinic.create({
-      name: 'CareFlow Health Polyclinic & Diagnostic Center',
-      code: 'CFH-MAIN',
+      name: 'Drittech Health Polyclinic & Diagnostic Center',
+      code: 'DTH-MAIN',
       address: {
         street: '742 Evergreen Medical Blvd',
         city: 'Metropolis',
@@ -45,8 +45,8 @@ const seedData = async () => {
         country: 'US',
       },
       phone: '+1 (555) 234-5678',
-      email: 'contact@careflow.drittech.com',
-      website: 'https://careflow.drittech.com',
+      email: 'contact@drittech.com',
+      website: 'https://drittech.com',
       settings: {
         operatingHours: { open: '08:00', close: '20:00' },
         averageConsultationTimeMinutes: 15,

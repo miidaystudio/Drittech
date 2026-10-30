@@ -1,0 +1,58 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.lab-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.upload-dropzone {
+  border: 2px dashed #28334A;
+  border-radius: 20px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  background-color: #0E111A;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: #38BDF8;
+    background-color: #121724;
+  }
+
+  &__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: rgba(14, 165, 233, 0.15);
+    color: #38BDF8;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    @include flex-center;
+    margin: 0 auto 1.25rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.35rem;
+  }
+
+  p {
+    font-size: 0.8125rem;
+    color: #94A3B8;
+  }
+}
+
+.parameter-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr 1.2fr auto;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}

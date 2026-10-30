@@ -1,0 +1,267 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.cf-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #0B0D14;
+  border-bottom: 1px solid #161A26;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  gap: 1.5rem;
+
+  @include mobile {
+    padding: 0.85rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__title-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 0.75rem;
+    color: #64748B;
+    margin-top: 0.15rem;
+    margin-bottom: 0;
+  }
+
+  // Salesforce-style Timeframe Switcher
+  &__timeframe {
+    display: flex;
+    align-items: center;
+    background-color: #121520;
+    border: 1px solid #1C2234;
+    border-radius: 9999px;
+    padding: 0.25rem 0.35rem;
+    gap: 0.2rem;
+
+    @include tablet {
+      display: none;
+    }
+
+    .timeframe-pill {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+
+      &:hover {
+        color: #FFFFFF;
+      }
+
+      &--active {
+        background-color: #FFFFFF;
+        color: #080A0F;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+        &:hover {
+          color: #080A0F;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.71875rem;
+    font-weight: 600;
+
+    &--connected {
+      background-color: rgba(16, 185, 129, 0.12);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    &--disconnected {
+      background-color: rgba(245, 158, 11, 0.12);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__clinic-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    background-color: #141724;
+    border: 1px solid #1E2538;
+    border-radius: 9999px;
+    font-size: 0.78125rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    cursor: default;
+
+    .clinic-icon {
+      color: #38BDF8;
+    }
+
+    .chevron-icon {
+      color: #64748B;
+    }
+
+    @include tablet {
+      display: none;
+    }
+  }
+
+  &__notif-wrapper {
+    position: relative;
+  }
+
+  &__notif-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #1E2538;
+    background-color: #141724;
+    color: #94A3B8;
+    @include flex-center;
+    position: relative;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: #1A2030;
+      color: #FFFFFF;
+      border-color: #2E374E;
+    }
+  }
+
+  &__notif-count {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    background-color: #EF4444;
+    color: #FFFFFF;
+    border-radius: 50%;
+    font-size: 0.625rem;
+    font-weight: 800;
+    @include flex-center;
+    border: 2px solid #0B0D14;
+  }
+
+  &__notif-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    width: 340px;
+    background-color: #121520;
+    border: 1px solid #1E2538;
+    border-radius: 18px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    z-index: 100;
+    animation: fadeIn 0.15s ease;
+  }
+
+  &__notif-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid #1E2538;
+    background-color: #0E111A;
+
+    h5 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    span {
+      font-size: 0.71875rem;
+      color: #64748B;
+    }
+  }
+
+  &__notif-list {
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  &__notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid #1E2538;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    h6 {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin: 0;
+    }
+
+    p {
+      font-size: 0.75rem;
+      color: #94A3B8;
+      margin-top: 0.15rem;
+      margin-bottom: 0;
+    }
+  }
+
+  &__notif-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: #64748B;
+  }
+
+  &__avatar-pill {
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.8125rem;
+      @include flex-center;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  }
+}

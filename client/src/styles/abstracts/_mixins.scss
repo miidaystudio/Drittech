@@ -15,15 +15,17 @@
 @mixin card-base {
   background-color: $color-surface;
   border: 1px solid $color-border;
-  border-radius: $radius-md;
-  box-shadow: $shadow-sm;
-  transition: border-color $transition-fast, box-shadow $transition-fast;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  color: $color-text-primary;
+  transition: border-color $transition-fast, box-shadow $transition-fast, transform $transition-fast;
 }
 
 @mixin card-hover {
   &:hover {
     border-color: $color-border-hover;
-    box-shadow: $shadow-md;
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
   }
 }
 

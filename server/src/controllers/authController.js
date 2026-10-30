@@ -7,7 +7,7 @@ const { logAudit } = require('../services/auditService');
 const setAuthCookies = (res, accessToken, refreshToken) => {
   const isProduction = process.env.NODE_ENV === 'production';
 
-  res.cookie('careflow_access_token', accessToken, {
+  res.cookie('drittech_access_token', accessToken, {
     httpOnly: true,
     secure: isProduction,
     sameSite: isProduction ? 'strict' : 'lax',
@@ -15,7 +15,7 @@ const setAuthCookies = (res, accessToken, refreshToken) => {
   });
 
   if (refreshToken) {
-    res.cookie('careflow_refresh_token', refreshToken, {
+    res.cookie('drittech_refresh_token', refreshToken, {
       httpOnly: true,
       secure: isProduction,
       sameSite: isProduction ? 'strict' : 'lax',
@@ -26,8 +26,8 @@ const setAuthCookies = (res, accessToken, refreshToken) => {
 };
 
 const clearAuthCookies = (res) => {
-  res.clearCookie('careflow_access_token');
-  res.clearCookie('careflow_refresh_token', { path: '/api/v1/auth/refresh' });
+  res.clearCookie('drittech_access_token');
+  res.clearCookie('drittech_refresh_token', { path: '/api/v1/auth/refresh' });
 };
 
 const login = async (req, res, next) => {
@@ -130,7 +130,7 @@ const register = async (req, res, next) => {
 
 const refresh = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies?.careflow_refresh_token || req.body?.refreshToken;
+    const refreshToken = req.cookies?.drittech_refresh_token || req.body?.refreshToken;
     if (!refreshToken) {
       return res.status(401).json({ success: false, message: 'No refresh token provided' });
     }
@@ -157,7 +157,7 @@ const refresh = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies?.careflow_refresh_token;
+    const refreshToken = req.cookies?.drittech_refresh_token;
     if (refreshToken) {
       const crypto = require('crypto');
       const hash = crypto.createHash('sha256').update(refreshToken).digest('hex');

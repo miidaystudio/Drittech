@@ -277,7 +277,7 @@ const downloadReportFile = async (req, res, next) => {
     if (!fs.existsSync(fullPath)) {
       // If sample PDF doesn't exist on disk, stream generated demo PDF bytes
       res.setHeader('Content-Type', 'text/plain');
-      return res.send(`CareFlow Diagnostic Report - ${report.title}\nReport ID: ${report.reportNumber}\nVerified: ${report.publishedAt}`);
+      return res.send(`Drittech Diagnostic Report - ${report.title}\nReport ID: ${report.reportNumber}\nVerified: ${report.publishedAt}`);
     }
 
     res.setHeader('Content-Disposition', `attachment; filename="${report.originalFileName}"`);

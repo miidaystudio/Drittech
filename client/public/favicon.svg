@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- "OF" wing logo matching reference: blue circle with hole + wing/F shape -->
+  <!-- Main circle (O) -->
+  <circle cx="38" cy="50" r="32" fill="#00AEEF"/>
+  <!-- Inner hole of the O -->
+  <circle cx="38" cy="50" r="12" fill="white"/>
+  <!-- Wing / F shape -->
+  <path d="M50 22 C70 22 88 28 88 42 C88 52 78 56 68 58 L50 62 L50 50 L66 48 C74 47 76 44 74 40 C72 36 64 34 50 34 Z" fill="#0090C8"/>
+  <!-- Lower wing sweep -->
+  <path d="M50 62 L50 74 L66 68 C76 64 82 58 80 52 C78 48 74 48 68 50 Z" fill="#007BB0"/>
+</svg>

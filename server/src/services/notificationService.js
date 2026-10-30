@@ -63,7 +63,7 @@ const sendNotification = async ({
           subject: title,
           text: message,
           html: `<div style="font-family: sans-serif; padding: 20px; color: #172B3A;">
-            <h2 style="color: #0F766E;">CareFlow Health Alert</h2>
+            <h2 style="color: #0F766E;">Drittech Health Alert</h2>
             <h3>${title}</h3>
             <p>${message}</p>
             <p style="color: #718096; font-size: 12px;">This is an automated notification from your clinic's patient flow system.</p>
