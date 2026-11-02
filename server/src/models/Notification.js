@@ -27,6 +27,8 @@ const notificationSchema = new mongoose.Schema(
         'turn_approaching',
         'patient_called',
         'appointment_reminder',
+        'appointment_confirmed',
+        'appointment_rescheduled',
         'report_published',
         'consultation_completed',
         'appointment_cancelled',

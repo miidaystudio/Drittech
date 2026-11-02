@@ -131,6 +131,37 @@ body {
     color: $color-text-secondary;
     border: 1px solid $color-border;
   }
+
+  &--scheduled,
+  &--confirmed {
+    background-color: $color-primary-light;
+    color: #60A5FA;
+    border: 1px solid rgba(37, 99, 235, 0.35);
+  }
+
+  &--checked_in {
+    background-color: $color-accent-mint;
+    color: $color-accent-mint-dark;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  &--pending {
+    background-color: $color-warning-bg;
+    color: $color-warning-text;
+    border: 1px solid $color-warning-border;
+  }
+
+  &--no_show {
+    background-color: $color-danger-bg;
+    color: $color-danger-text;
+    border: 1px solid $color-danger-border;
+  }
+
+  &--rescheduled {
+    background-color: rgba(168, 85, 247, 0.12);
+    color: #C084FC;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
 }
 
 @keyframes pulseGlow {

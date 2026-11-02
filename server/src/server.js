@@ -3,6 +3,7 @@ const app = require('./app');
 const env = require('./config/env');
 const connectDB = require('./config/db');
 const { initSocket } = require('./config/socket');
+const { initCronJobs } = require('./services/cronService');
 
 const server = http.createServer(app);
 
@@ -12,6 +13,10 @@ initSocket(server);
 // Start Server
 const start = async () => {
   await connectDB();
+
+  if (env.NODE_ENV !== 'test') {
+    initCronJobs();
+  }
 
   server.listen(env.PORT, () => {
     console.log(`====================================================`);

@@ -32,12 +32,14 @@ import { ReceptionQueuePage } from '../pages/receptionist/ReceptionQueuePage';
 import { RegisterPatientPage } from '../pages/receptionist/RegisterPatientPage';
 import { ReceptionPatientsPage } from '../pages/receptionist/ReceptionPatientsPage';
 import { ReceptionCheckInPage } from '../pages/receptionist/ReceptionCheckInPage';
+import { ReceptionAppointmentsPage } from '../pages/receptionist/ReceptionAppointmentsPage';
 
 // Doctor Pages
 import { DoctorConsolePage } from '../pages/doctor/DoctorConsolePage';
 import { DoctorConsultationPage } from '../pages/doctor/DoctorConsultationPage';
 import { DoctorQueuePage } from '../pages/doctor/DoctorQueuePage';
 import { DoctorHistoryPage } from '../pages/doctor/DoctorHistoryPage';
+import { DoctorSchedulePage } from '../pages/doctor/DoctorSchedulePage';
 
 // Lab Pages
 import { LabOverviewPage } from '../pages/laboratory/LabOverviewPage';
@@ -48,6 +50,7 @@ import { LabReportsPage } from '../pages/laboratory/LabReportsPage';
 // Patient Portal Pages
 import { PatientPortalHomePage } from '../pages/patient/PatientPortalHomePage';
 import { PatientAppointmentsPage } from '../pages/patient/PatientAppointmentsPage';
+import { PatientBookingWizardPage } from '../pages/patient/PatientBookingWizardPage';
 import { PatientReportsPage } from '../pages/patient/PatientReportsPage';
 import { PatientProfilePage } from '../pages/patient/PatientProfilePage';
 
@@ -58,6 +61,7 @@ import { AdminStaffPage } from '../pages/admin/AdminStaffPage';
 import { AdminDepartmentsPage } from '../pages/admin/AdminDepartmentsPage';
 import { AdminAuditLogsPage } from '../pages/admin/AdminAuditLogsPage';
 import { AdminSettingsPage } from '../pages/admin/AdminSettingsPage';
+import { AdminSchedulingPage } from '../pages/admin/AdminSchedulingPage';
 
 // Protected Route Wrapper with Role Authorization Check
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
@@ -116,6 +120,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <PatientPortalHomePage /> },
       { path: 'appointments', element: <PatientAppointmentsPage /> },
+      { path: 'appointments/book', element: <PatientBookingWizardPage /> },
       { path: 'reports', element: <PatientReportsPage /> },
       { path: 'profile', element: <PatientProfilePage /> },
     ],
@@ -134,7 +139,8 @@ export const router = createBrowserRouter([
       { path: 'admin', element: <AdminOverviewPage /> },
       { path: 'admin/queue', element: <ReceptionQueuePage /> },
       { path: 'admin/patients', element: <ReceptionPatientsPage /> },
-      { path: 'admin/appointments', element: <ReceptionCheckInPage /> },
+      { path: 'admin/appointments', element: <ReceptionAppointmentsPage /> },
+      { path: 'admin/scheduling', element: <AdminSchedulingPage /> },
       { path: 'admin/staff', element: <AdminStaffPage /> },
       { path: 'admin/departments', element: <AdminDepartmentsPage /> },
       { path: 'admin/diagnostics', element: <LabOrdersPage /> },
@@ -148,11 +154,12 @@ export const router = createBrowserRouter([
       { path: 'reception/queue', element: <ReceptionQueuePage /> },
       { path: 'reception/register-patient', element: <RegisterPatientPage /> },
       { path: 'reception/patients', element: <ReceptionPatientsPage /> },
-      { path: 'reception/appointments', element: <ReceptionCheckInPage /> },
+      { path: 'reception/appointments', element: <ReceptionAppointmentsPage /> },
       { path: 'reception/check-in', element: <ReceptionCheckInPage /> },
 
       // Doctor
       { path: 'doctor', element: <DoctorConsolePage /> },
+      { path: 'doctor/schedule', element: <DoctorSchedulePage /> },
       { path: 'doctor/queue', element: <DoctorQueuePage /> },
       { path: 'doctor/patients', element: <ReceptionPatientsPage /> },
       { path: 'doctor/consultation/:consultationId', element: <DoctorConsultationPage /> },

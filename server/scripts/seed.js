@@ -11,6 +11,10 @@ const Consultation = require('../src/models/Consultation');
 const LabOrder = require('../src/models/LabOrder');
 const LabReport = require('../src/models/LabReport');
 const Notification = require('../src/models/Notification');
+const DoctorSchedule = require('../src/models/DoctorSchedule');
+const ScheduleException = require('../src/models/ScheduleException');
+const AppointmentType = require('../src/models/AppointmentType');
+const ClinicSchedulingPolicy = require('../src/models/ClinicSchedulingPolicy');
 const { getTodayDateString } = require('../src/services/queueService');
 
 const seedData = async () => {
@@ -31,6 +35,10 @@ const seedData = async () => {
       LabOrder.deleteMany({}),
       LabReport.deleteMany({}),
       Notification.deleteMany({}),
+      DoctorSchedule.deleteMany({}),
+      ScheduleException.deleteMany({}),
+      AppointmentType.deleteMany({}),
+      ClinicSchedulingPolicy.deleteMany({}),
     ]);
 
     console.log('[Seed] Creating Main Clinic...');
@@ -395,6 +403,359 @@ const seedData = async () => {
       sampleCollectedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
       clinicalNotes: 'Glycemic control evaluation',
     });
+
+    console.log('[Seed] Configuring Clinic Scheduling Policy, Types, and Doctor Schedules...');
+    await ClinicSchedulingPolicy.create({
+      clinicId: clinic._id,
+      advanceBookingDays: 30,
+      minLeadTimeHours: 2,
+      cancellationCutoffHours: 4,
+      autoNoShowGraceMinutes: 30,
+      overbookingLimit: 0,
+      timezone: 'America/New_York',
+    });
+
+    const typeConsult = await AppointmentType.create({
+      clinicId: clinic._id,
+      departmentId: deptGeneral._id,
+      name: 'General Consultation',
+      code: 'CONSULT',
+      durationMinutes: 15,
+      color: '#2563EB',
+      description: 'Routine outpatient medical consultation and diagnosis',
+      active: true,
+    });
+
+    const typeComprehensive = await AppointmentType.create({
+      clinicId: clinic._id,
+      departmentId: deptGeneral._id,
+      name: 'Comprehensive Health Check',
+      code: 'COMP_CHECK',
+      durationMinutes: 30,
+      color: '#10B981',
+      description: 'In-depth clinical evaluation, chronic disease checkup, and lab review',
+      active: true,
+    });
+
+    const typeFollowUp = await AppointmentType.create({
+      clinicId: clinic._id,
+      departmentId: deptGeneral._id,
+      name: 'Follow-up Visit',
+      code: 'FOLLOWUP',
+      durationMinutes: 15,
+      color: '#0EA5E9',
+      description: 'Treatment response check and prescription renewal',
+      active: true,
+    });
+
+    const typeCardio = await AppointmentType.create({
+      clinicId: clinic._id,
+      departmentId: deptCardiology._id,
+      name: 'Cardiology Assessment',
+      code: 'CARDIO_EVAL',
+      durationMinutes: 30,
+      color: '#8B5CF6',
+      description: 'Cardiovascular risk evaluation and ECG diagnostic review',
+      active: true,
+    });
+
+    // Weekly schedules for Dr. Sarah Jenkins
+    await DoctorSchedule.create({
+      clinicId: clinic._id,
+      doctorId: doctorProfile1._id,
+      weeklyHours: [
+        {
+          day: 'Monday',
+          isActive: true,
+          shifts: [{ start: '09:00', end: '13:00' }, { start: '14:00', end: '17:30' }],
+          breaks: [{ start: '13:00', end: '14:00', label: 'Lunch & Hospital Rounds' }],
+        },
+        {
+          day: 'Tuesday',
+          isActive: true,
+          shifts: [{ start: '09:00', end: '13:00' }, { start: '14:00', end: '17:30' }],
+          breaks: [{ start: '13:00', end: '14:00', label: 'Lunch' }],
+        },
+        {
+          day: 'Wednesday',
+          isActive: true,
+          shifts: [{ start: '09:00', end: '13:00' }, { start: '14:00', end: '17:30' }],
+          breaks: [{ start: '13:00', end: '14:00', label: 'Lunch' }],
+        },
+        {
+          day: 'Thursday',
+          isActive: true,
+          shifts: [{ start: '09:00', end: '13:00' }, { start: '14:00', end: '17:30' }],
+          breaks: [{ start: '13:00', end: '14:00', label: 'Lunch' }],
+        },
+        {
+          day: 'Friday',
+          isActive: true,
+          shifts: [{ start: '09:00', end: '13:00' }, { start: '14:00', end: '16:30' }],
+          breaks: [{ start: '13:00', end: '14:00', label: 'Lunch' }],
+        },
+        {
+          day: 'Saturday',
+          isActive: true,
+          shifts: [{ start: '09:30', end: '13:00' }],
+          breaks: [],
+        },
+        {
+          day: 'Sunday',
+          isActive: false,
+          shifts: [],
+          breaks: [],
+        },
+      ],
+      slotDuration: 15,
+      bufferMinutes: 5,
+      maxPerDay: 28,
+      timezone: 'America/New_York',
+      isActive: true,
+    });
+
+    // Weekly schedules for Dr. Marcus Vance
+    await DoctorSchedule.create({
+      clinicId: clinic._id,
+      doctorId: doctorProfile2._id,
+      weeklyHours: [
+        {
+          day: 'Monday',
+          isActive: true,
+          shifts: [{ start: '08:30', end: '12:30' }, { start: '13:30', end: '17:00' }],
+          breaks: [{ start: '12:30', end: '13:30', label: 'Lunch & Catheter Lab' }],
+        },
+        {
+          day: 'Tuesday',
+          isActive: true,
+          shifts: [{ start: '08:30', end: '12:30' }, { start: '13:30', end: '17:00' }],
+          breaks: [{ start: '12:30', end: '13:30', label: 'Lunch' }],
+        },
+        {
+          day: 'Wednesday',
+          isActive: true,
+          shifts: [{ start: '08:30', end: '12:30' }, { start: '13:30', end: '17:00' }],
+          breaks: [{ start: '12:30', end: '13:30', label: 'Lunch' }],
+        },
+        {
+          day: 'Thursday',
+          isActive: true,
+          shifts: [{ start: '08:30', end: '12:30' }, { start: '13:30', end: '17:00' }],
+          breaks: [{ start: '12:30', end: '13:30', label: 'Lunch' }],
+        },
+        {
+          day: 'Friday',
+          isActive: true,
+          shifts: [{ start: '08:30', end: '13:00' }],
+          breaks: [],
+        },
+        {
+          day: 'Saturday',
+          isActive: false,
+          shifts: [],
+          breaks: [],
+        },
+        {
+          day: 'Sunday',
+          isActive: false,
+          shifts: [],
+          breaks: [],
+        },
+      ],
+      slotDuration: 30,
+      bufferMinutes: 5,
+      maxPerDay: 16,
+      timezone: 'America/New_York',
+      isActive: true,
+    });
+
+    // Schedule Exceptions
+    const clinicHolidayStart = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000);
+    const clinicHolidayEnd = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000);
+    clinicHolidayStart.setHours(0, 0, 0, 0);
+    clinicHolidayEnd.setHours(23, 59, 59, 999);
+
+    await ScheduleException.create({
+      clinicId: clinic._id,
+      doctorId: null, // clinic-wide
+      startDate: clinicHolidayStart,
+      endDate: clinicHolidayEnd,
+      type: 'holiday',
+      reason: 'Regional Healthcare Technology Conference & Staff Training',
+    });
+
+    const doctorLeaveStart = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+    const doctorLeaveEnd = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
+    await ScheduleException.create({
+      clinicId: clinic._id,
+      doctorId: doctorProfile2._id,
+      startDate: doctorLeaveStart,
+      endDate: doctorLeaveEnd,
+      type: 'leave',
+      reason: 'Annual Cardiology Association Symposium',
+    });
+
+    console.log('[Seed] Creating ~30 Realistic Appointments across statuses...');
+    const helperSlotTime = (baseDate, hours, minutes) => {
+      const d = new Date(baseDate);
+      d.setUTCHours(hours, minutes, 0, 0);
+      return d;
+    };
+
+    const aptSeedData = [];
+    const patients = [patient1, patient2, patient3, patient4];
+
+    // Generate appointments for Days [-5 to +7]
+    for (let offset = -5; offset <= 7; offset++) {
+      const dayRef = new Date();
+      dayRef.setDate(dayRef.getDate() + offset);
+      const dateStr = dayRef.toISOString().split('T')[0];
+
+      if (offset < 0) {
+        // Past appointments: mostly completed, some cancelled or no_show
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patients[(Math.abs(offset)) % patients.length]._id,
+          doctorId: doctorProfile1._id,
+          departmentId: deptGeneral._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '10:00',
+          startTime: helperSlotTime(dayRef, 10, 0),
+          endTime: helperSlotTime(dayRef, 10, 15),
+          typeId: typeConsult._id,
+          type: typeConsult.name,
+          reasonForVisit: 'Periodic wellness review',
+          status: offset === -2 ? 'no_show' : offset === -4 ? 'cancelled' : 'completed',
+          cancelReason: offset === -4 ? 'Patient personal emergency' : '',
+          source: 'portal',
+        });
+
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patients[(Math.abs(offset) + 1) % patients.length]._id,
+          doctorId: doctorProfile2._id,
+          departmentId: deptCardiology._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '14:30',
+          startTime: helperSlotTime(dayRef, 14, 30),
+          endTime: helperSlotTime(dayRef, 15, 0),
+          typeId: typeCardio._id,
+          type: typeCardio.name,
+          reasonForVisit: 'Echocardiogram follow-up consultation',
+          status: 'completed',
+          source: 'reception',
+        });
+      } else if (offset === 0) {
+        // TODAY's Appointments:
+        // 1) Checked-in appointment linked to q3 (Robert Henderson)
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patient3._id,
+          doctorId: doctorProfile1._id,
+          departmentId: deptGeneral._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '09:30',
+          startTime: helperSlotTime(dayRef, 9, 30),
+          endTime: helperSlotTime(dayRef, 9, 45),
+          typeId: typeFollowUp._id,
+          type: typeFollowUp.name,
+          reasonForVisit: 'Quarterly diabetes management consultation',
+          status: 'checked_in',
+          queueEntryId: q3._id,
+          source: 'portal',
+        });
+
+        // 2) James Wilson demo patient appointment today (confirmed)
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patient1._id,
+          doctorId: doctorProfile1._id,
+          departmentId: deptGeneral._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '11:15',
+          startTime: helperSlotTime(dayRef, 11, 15),
+          endTime: helperSlotTime(dayRef, 11, 30),
+          typeId: typeConsult._id,
+          type: typeConsult.name,
+          reasonForVisit: 'Blood pressure follow-up and prescription review',
+          status: 'confirmed',
+          source: 'portal',
+        });
+
+        // 3) Sophia Martinez today with Dr. Marcus (confirmed)
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patient2._id,
+          doctorId: doctorProfile2._id,
+          departmentId: deptCardiology._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '14:00',
+          startTime: helperSlotTime(dayRef, 14, 0),
+          endTime: helperSlotTime(dayRef, 14, 30),
+          typeId: typeCardio._id,
+          type: typeCardio.name,
+          reasonForVisit: 'Arrhythmia investigation',
+          status: 'confirmed',
+          source: 'reception',
+        });
+
+        // 4) Emma Watson-Lee completed earlier today
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patient4._id,
+          doctorId: doctorProfile1._id,
+          departmentId: deptGeneral._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '09:00',
+          startTime: helperSlotTime(dayRef, 9, 0),
+          endTime: helperSlotTime(dayRef, 9, 15),
+          typeId: typeConsult._id,
+          type: typeConsult.name,
+          reasonForVisit: 'Mild allergic rash inspection',
+          status: 'completed',
+          source: 'portal',
+        });
+      } else {
+        // FUTURE Appointments (offset 1 to 7)
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patients[offset % patients.length]._id,
+          doctorId: doctorProfile1._id,
+          departmentId: deptGeneral._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: offset % 2 === 0 ? '10:15' : '11:45',
+          startTime: helperSlotTime(dayRef, offset % 2 === 0 ? 10 : 11, offset % 2 === 0 ? 15 : 45),
+          endTime: helperSlotTime(dayRef, offset % 2 === 0 ? 10 : 12, offset % 2 === 0 ? 30 : 0),
+          typeId: typeConsult._id,
+          type: typeConsult.name,
+          reasonForVisit: 'Routine physical checkup & lab order',
+          status: 'confirmed',
+          source: 'portal',
+        });
+
+        aptSeedData.push({
+          clinicId: clinic._id,
+          patientId: patients[(offset + 2) % patients.length]._id,
+          doctorId: doctorProfile2._id,
+          departmentId: deptCardiology._id,
+          appointmentDate: new Date(dateStr),
+          slotTime: '15:00',
+          startTime: helperSlotTime(dayRef, 15, 0),
+          endTime: helperSlotTime(dayRef, 15, 30),
+          typeId: typeCardio._id,
+          type: typeCardio.name,
+          reasonForVisit: 'Cardiovascular exercise tolerance test review',
+          status: offset === 3 ? 'rescheduled' : 'confirmed',
+          cancelReason: offset === 3 ? 'Doctor rescheduled to alternate day' : '',
+          source: 'portal',
+        });
+      }
+    }
+
+    // Insert all appointments
+    for (const apt of aptSeedData) {
+      await Appointment.create(apt);
+    }
 
     console.log('[Seed] Creating Sample Notifications...');
     await Notification.create({

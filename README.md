@@ -151,6 +151,63 @@ Drittech/
 
 ---
 
+## 📅 Dynamic Appointment Booking & Scheduling Engine
+
+A fully dynamic, zero-hardcoding appointment scheduling system driven by admin-configurable doctor hours, break intervals, holidays, exceptions, and live WebSocket synchronization.
+
+### 🧱 Data Models
+
+* **[`DoctorSchedule`](file:///c:/Users/miiday_repo_work/Drittech/server/src/models/DoctorSchedule.js)**: Multi-tenant per-doctor weekly hours, shifts (`start`, `end`), breaks (`start`, `end`, `label`), slot duration (e.g., 15 mins), buffer time (e.g., 5 mins), max daily appointments, and timezone.
+* **[`ScheduleException`](file:///c:/Users/miiday_repo_work/Drittech/server/src/models/ScheduleException.js)**: Date ranges for clinic-wide holidays or individual doctor leaves (`type: 'leave' | 'holiday' | 'custom_hours'`) that automatically blackout slots in real time.
+* **[`AppointmentType`](file:///c:/Users/miiday_repo_work/Drittech/server/src/models/AppointmentType.js)**: Configurable consultation types (e.g., Consultation, Comprehensive Health Check, Follow-up) with custom durations that dynamically resize candidate booking slots.
+* **[`ClinicSchedulingPolicy`](file:///c:/Users/miiday_repo_work/Drittech/server/src/models/ClinicSchedulingPolicy.js)**: Admin-level policies controlling advance booking window (e.g., 30 days), minimum lead time notice (e.g., 2 hours), cancellation/reschedule cutoff (e.g., 4 hours), and auto no-show grace period (e.g., 30 minutes).
+* **[`Appointment`](file:///c:/Users/miiday_repo_work/Drittech/server/src/models/Appointment.js)**: Full appointment lifecycle (`pending`, `confirmed`, `checked_in`, `in_consultation`, `completed`, `cancelled`, `no_show`, `rescheduled`) with a compound unique partial index `{ doctorId: 1, startTime: 1 }` to guarantee 100% atomic concurrency safety.
+
+### 🌐 API Reference
+
+| Method | Endpoint | Description | Auth Roles |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/v1/scheduling/availability` | Dynamically computed available slots accounting for shifts, breaks, leaves, lead time, and active bookings | All authenticated |
+| `GET` | `/api/v1/scheduling/calendar-summary` | Month-level availability summary for calendar date pickers | All authenticated |
+| `GET` | `/api/v1/scheduling/types` | List active appointment types | All authenticated |
+| `POST` / `PUT` | `/api/v1/scheduling/types` | Create or update appointment types | `super_admin`, `clinic_admin` |
+| `GET` / `POST` | `/api/v1/scheduling/doctor-schedule` | Retrieve and save per-doctor weekly shifts and slot rules | Admin, Doctor |
+| `GET` / `POST` / `DELETE`| `/api/v1/scheduling/exceptions` | Manage holidays and doctor leaves | Admin, Doctor |
+| `GET` / `PUT` | `/api/v1/scheduling/policy` | Read and update clinic booking window and cancellation cutoffs | `super_admin`, `clinic_admin` |
+| `GET` | `/api/v1/scheduling/analytics` | Scheduling KPIs: bookings/day, no-show rate, cancellation rate, doctor utilization | Admin, Receptionist, Doctor |
+| `GET` | `/api/v1/appointments` | Filter appointments by date, doctor, department, or status (scoped to patient ownership for patients) | All authenticated |
+| `POST` | `/api/v1/appointments` | Atomic slot booking with concurrency lock, policy checks, idempotency, and notifications | Patient, Receptionist, Admin |
+| `POST` | `/api/v1/appointments/:id/cancel` | Cancel appointment with cancellation cutoff enforcement | Patient, Receptionist, Admin |
+| `POST` | `/api/v1/appointments/:id/reschedule` | Reschedule appointment to a new date and slot | Patient, Receptionist, Admin |
+| `POST` | `/api/v1/appointments/:id/check-in` | Check in patient, transition to `checked_in`, and issue real-time queue token | Receptionist, Admin |
+| `POST` | `/api/v1/appointments/:id/no-show` | Mark appointment as no-show | Receptionist, Admin |
+
+### ⚡ Socket.IO Events
+
+* `slot:locked`: Emitted when an appointment is booked or reserved. Connected client calendars and wizards immediately remove the slot.
+* `slot:released`: Emitted on cancellation or rescheduling. The previously held slot instantly becomes available to other users.
+* `appointment:created`: Broadcasts new appointment data to the clinic and doctor rooms.
+* `appointment:updated`: Dispatched on check-in, status changes, or no-show transitions.
+* `appointment:cancelled`: Broadcasts appointment cancellation to connected staff and patient rooms.
+
+### 🧪 How to Run Seed & Tests
+
+```bash
+# Seed ~30 realistic appointments, doctor shifts, exceptions, and policies
+npm run seed
+
+# Run entire test suite (backend unit/concurrency tests + frontend tests)
+npm run test
+
+# Run server Vitest tests individually
+npm run test --prefix server
+
+# Run client Vitest tests
+npm run test --prefix client
+```
+
+---
+
 ## 🔒 Security & Privacy Engineering
 
 - **HttpOnly Cookie JWTs:** Access and refresh tokens are stored in secure HttpOnly cookies, guarding against XSS token exfiltration.

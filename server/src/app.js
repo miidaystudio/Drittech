@@ -18,6 +18,7 @@ const labRoutes = require('./routes/labRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const publicRoutes = require('./routes/publicRoutes');
+const schedulingRoutes = require('./routes/schedulingRoutes');
 
 const app = express();
 
@@ -72,6 +73,8 @@ app.use('/api/v1', labRoutes); // Handles both /api/v1/lab and /api/v1/patient/r
 app.use('/api/v1/analytics', analyticsRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/public', publicRoutes);
+app.use('/api/v1/scheduling', schedulingRoutes);
+app.use('/api/scheduling', schedulingRoutes);
 
 // 404 Route Handler
 app.use((req, res, next) => {

@@ -17,6 +17,8 @@ import {
   UserCheck,
   FolderKanban,
   FileCheck2,
+  Sliders,
+  Clock,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Sidebar.scss';
@@ -36,14 +38,14 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
         { label: 'Overview', to: '/app/admin', icon: LayoutDashboard, end: true },
         { label: 'Patient Queue', to: '/app/admin/queue', icon: Layers },
         { label: 'Patients Directory', to: '/app/admin/patients', icon: Users },
-        { label: 'Appointments', to: '/app/admin/appointments', icon: Calendar },
+        { label: 'Appointments Desk', to: '/app/admin/appointments', icon: Calendar },
+        { label: 'Shifts & Scheduling', to: '/app/admin/scheduling', icon: Sliders },
         { label: 'Doctors & Staff', to: '/app/admin/staff', icon: Stethoscope },
         { label: 'Departments', to: '/app/admin/departments', icon: FolderKanban },
         { label: 'Lab Orders', to: '/app/admin/diagnostics', icon: FlaskConical },
         { label: 'Medical Reports', to: '/app/admin/reports', icon: FileText },
         { label: 'Flow Analytics', to: '/app/admin/analytics', icon: BarChart3 },
         { label: 'Audit Logs', to: '/app/admin/audit-logs', icon: ShieldCheck },
-        { label: 'Notifications', to: '/app/admin/notifications', icon: Bell },
         { label: 'Clinic Settings', to: '/app/admin/settings', icon: Settings },
       ];
     }
@@ -51,14 +53,16 @@ export const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
       return [
         { label: 'Overview', to: '/app/reception', icon: LayoutDashboard, end: true },
         { label: 'Live Queue Manager', to: '/app/reception/queue', icon: Layers },
-        { label: 'Register Patient', to: '/app/reception/register-patient', icon: UserCheck },
+        { label: 'Appointments Desk', to: '/app/reception/appointments', icon: Calendar },
+        { label: 'Check-in Desk', to: '/app/reception/check-in', icon: UserCheck },
+        { label: 'Register Patient', to: '/app/reception/register-patient', icon: Users },
         { label: 'Patients Directory', to: '/app/reception/patients', icon: Users },
-        { label: 'Appointment Check-in', to: '/app/reception/check-in', icon: Calendar },
       ];
     }
     if (role === 'doctor') {
       return [
         { label: 'Doctor Console', to: '/app/doctor', icon: Stethoscope, end: true },
+        { label: 'My Schedule', to: '/app/doctor/schedule', icon: Calendar },
         { label: 'Patient Queue', to: '/app/doctor/queue', icon: Layers },
         { label: 'Patient Records', to: '/app/doctor/patients', icon: Users },
         { label: 'Consultation History', to: '/app/doctor/history', icon: FileCheck2 },
